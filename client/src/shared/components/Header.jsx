@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "/logo.png";
 import Button from "./UIElements/Button";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Header = () => {
-  const { userId, username } = useAuth();
+  const { userId, username, logout } = useAuth();
+
+  const navigate = useNavigate();
+
+  const logoutHandler = () => {
+    logout();
+    toast.success("User logged out successfully!");
+    navigate("/");
+  };
 
   return (
     <header className="bg-primary h-16 flex items-center justify-between px-10">
@@ -24,7 +33,7 @@ const Header = () => {
           </Button>
         )}
         {userId && (
-          <Link className="text-white flex items-center gap-2">
+          <Link to={"/bookings"} className="text-white flex items-center gap-2">
             <img
               className="w-10 h-10 rounded-full"
               src="/avatar.png"
@@ -32,6 +41,11 @@ const Header = () => {
             />
             <span>{username}</span>
           </Link>
+        )}
+        {userId && (
+          <Button variant="danger" onClick={logoutHandler}>
+            Logout
+          </Button>
         )}
       </nav>
     </header>

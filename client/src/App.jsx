@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import Login from "./user/pages/Login";
 import AuthContext from "./auth/AuthContext";
 import ProtectedRoutes from "./shared/protectedRoutes/ProtectedRoutes";
+import Bookings from "./user/pages/Bookings";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
               path="/book/:movieName/:movieId/theatres"
               element={<TheatreList />}
             />
+            <Route path="/bookings" element={<Bookings />} />
           </Route>
           <Route path="/" element={<HomePage />} />
           <Route path="/movie/:movieId" element={<MovieDetailsPage />} />

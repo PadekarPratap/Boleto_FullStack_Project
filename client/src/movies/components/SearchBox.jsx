@@ -1,6 +1,8 @@
 import { HiLanguage } from "react-icons/hi2";
 import { CiGlobe } from "react-icons/ci";
 import { TbRating18Plus } from "react-icons/tb";
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const GENRE = [
   {
@@ -26,6 +28,24 @@ const GENRE = [
 ];
 
 const SearchBox = () => {
+  const [movieName, setMovieName] = useState("");
+  const [genre, setGenre] = useState("");
+  const [language, setLanguage] = useState("");
+  const [rating, setRating] = useState("");
+
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const keyHandler = (e) => {
+    if (e.code === "Enter") {
+      searchParams.set("name", movieName);
+      searchParams.set("language", language);
+      searchParams.set("genre", genre);
+      searchParams.set("rating", rating);
+      navigate(`/explore?${searchParams.toString()}`);
+    }
+  };
+
   return (
     <div className="mt-20 mx-auto w-[90vw] min-h-[30vh] bg-[url('/movie-collage.jpg')] bg-cover rounded opacity-90 px-12 py-6">
       <h3 className="text-white text-xl tracking-widest">welcome to boleto</h3>
@@ -38,6 +58,9 @@ const SearchBox = () => {
             type="search"
             placeholder="Search for movies..."
             className="bg-transparent p-1 border-b-2 border-b-white text-white focus:outline-none"
+            onChange={(e) => setMovieName(e.target.value)}
+            value={movieName}
+            onKeyDown={keyHandler}
           />
         </div>
         <div className="flex gap-3">
@@ -48,11 +71,11 @@ const SearchBox = () => {
           <select
             id="language"
             className="focus:outline-none text-white bg-transparent"
-            defaultValue={"default"}
+            onChange={(e) => setLanguage(e.target.value)}
+            value={language}
+            onKeyDown={keyHandler}
           >
-            <option value="default" disabled>
-              Select a language
-            </option>
+            <option value="">Select a language</option>
             <option className="text-black" value="english">
               English
             </option>
@@ -75,11 +98,11 @@ const SearchBox = () => {
           <select
             id="genre"
             className="focus:outline-none text-white bg-transparent"
-            defaultValue={"default"}
+            onChange={(e) => setGenre(e.target.value)}
+            value={genre}
+            onKeyDown={keyHandler}
           >
-            <option value="default" disabled>
-              Select a genre
-            </option>
+            <option value="">Select a genre</option>
             {GENRE.map((genre) => (
               <option key={genre.id} className="text-black" value={genre.value}>
                 {genre.name}
@@ -95,11 +118,11 @@ const SearchBox = () => {
           <select
             id="rating"
             className="focus:outline-none text-white bg-transparent"
-            defaultValue={"default"}
+            onChange={(e) => setRating(e.target.value)}
+            value={rating}
+            onKeyDown={keyHandler}
           >
-            <option value="default" disabled>
-              Select a rating
-            </option>
+            <option value="">Select a rating</option>
             <option className="text-black" value="G">
               G
             </option>
